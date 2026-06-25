@@ -409,65 +409,81 @@ user-select: none;
 -webkit-user-drag: none;
 }
 
-/* Lightweight preview of the popup layout (media on the left, text on the right). */
-.shortcut-overview-preview {
-display: grid;
-grid-template-columns: 0.92fr 1.08fr;
-gap: 0.75rem;
-align-items: center;
-aspect-ratio: 16 / 9;
-padding: 0.85rem;
-border-radius: 9px;
-background: linear-gradient(135deg, #eef2f9 0%, #e4e9f4 100%);
-border: 1px dashed #c4d0e4;
-}
-
-.shortcut-overview-preview-media {
-position: relative;
-display: flex;
-align-items: center;
-justify-content: center;
-height: 100%;
-border-radius: 7px;
-background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-}
-
-.shortcut-overview-preview-play {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-width: 2.4rem;
-height: 2.4rem;
-border-radius: 999px;
-background: rgba(255, 255, 255, 0.92);
-color: #3149a5;
-font-size: 0.85rem;
-box-shadow: 0 6px 16px rgba(15, 23, 42, 0.28);
-}
-
-.shortcut-overview-preview-text {
+/* Content summary shown on each card (category, benchmark, question, answer). */
+.shortcut-overview-card-body {
 display: flex;
 flex-direction: column;
-gap: 0.55rem;
-min-width: 0;
+gap: 0.7rem;
+height: 100%;
+padding: 0.5rem 0.55rem 1.7rem;
 }
 
-.shortcut-overview-preview-category {
-font-family: 'Google Sans', sans-serif;
-font-size: 0.95rem;
+.shortcut-overview-card-top {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 0.5rem;
+}
+
+.shortcut-overview-card-type {
+font-size: 0.76rem;
 font-weight: 800;
-line-height: 1.2;
-color: #1f2937;
-}
-
-.shortcut-overview-preview-line {
-height: 0.5rem;
+color: #3149a5;
+background: rgba(49, 73, 165, 0.1);
 border-radius: 999px;
-background: #cbd5e1;
+padding: 0.32rem 0.62rem;
 }
 
-.shortcut-overview-preview-line.is-short {
-width: 55%;
+.shortcut-overview-card-bench {
+flex: none;
+font-size: 0.7rem;
+font-weight: 800;
+color: #64748b;
+background: #f1f5f9;
+border: 1px solid #e2e8f0;
+border-radius: 999px;
+padding: 0.28rem 0.55rem;
+}
+
+.shortcut-overview-card-q {
+font-family: 'Google Sans', sans-serif;
+font-size: 1rem;
+line-height: 1.45;
+font-weight: 700;
+color: #111827;
+display: -webkit-box;
+-webkit-line-clamp: 4;
+-webkit-box-orient: vertical;
+overflow: hidden;
+}
+
+.shortcut-overview-card-answer {
+margin-top: auto;
+display: flex;
+align-items: center;
+gap: 0.55rem;
+}
+
+.shortcut-overview-card-answer span {
+font-size: 0.66rem;
+font-weight: 800;
+text-transform: uppercase;
+letter-spacing: 0.07em;
+color: #94a3b8;
+}
+
+.shortcut-overview-card-answer strong {
+min-width: 0;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+font-size: 0.85rem;
+font-weight: 700;
+color: #14532d;
+background: rgba(34, 197, 94, 0.12);
+border: 1px solid rgba(34, 197, 94, 0.4);
+border-radius: 7px;
+padding: 0.22rem 0.5rem;
 }
 
 .shortcut-overview-card figcaption {

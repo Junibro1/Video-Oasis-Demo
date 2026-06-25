@@ -124,7 +124,32 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
+    function buildCardSummary(card) {
+      if (card.querySelector(".shortcut-overview-card-body")) {
+        return;
+      }
+
+      const body = document.createElement("div");
+      body.className = "shortcut-overview-card-body";
+      body.innerHTML =
+        '<div class="shortcut-overview-card-top">' +
+        '<span class="shortcut-overview-card-type"></span>' +
+        '<span class="shortcut-overview-card-bench"></span>' +
+        "</div>" +
+        '<p class="shortcut-overview-card-q"></p>' +
+        '<div class="shortcut-overview-card-answer"><span>Answer</span><strong></strong></div>';
+
+      body.querySelector(".shortcut-overview-card-type").textContent = getCardValue(card, "type");
+      body.querySelector(".shortcut-overview-card-bench").textContent = getCardValue(card, "benchmark");
+      body.querySelector(".shortcut-overview-card-q").textContent = getCardValue(card, "question");
+      body.querySelector(".shortcut-overview-card-answer strong").textContent = getCardValue(card, "answer");
+
+      card.insertBefore(body, card.firstChild);
+    }
+
     cards.forEach(function (card) {
+      buildCardSummary(card);
+
       card.addEventListener("click", function () {
         if (shortcutRailDragged) {
           return;
