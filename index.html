@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Video-Oasis: Rethinking Evaluation of Video Understanding">
+  <meta name="keywords" content="Video-Oasis, Video Understanding, Spatio-Temporal Reasoning, Video Benchmark">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video-Oasis: Rethinking Evaluation of Video Understanding</title>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/icon.png">
+
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              Video-Oasis: Rethinking Evaluation of Video Understanding
+            </h1>
+
+            <div class="publication-venue">ECCV 2026</div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://limgeuntaekk.github.io">Geuntaek Lim</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#">Sungjune Park</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="#">Jaeyun Lee</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=cfl4xNMAAAAJ&hl=ko">Inwoong Lee</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=mMgadisAAAAJ&hl=ko">Taeoh Kim</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=oEKX8h0AAAAJ&hl=ko">Dongyoon Wee</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=42dUnrgAAAAJ&hl=ko">Minho Shim</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.co.kr/citations?user=vMrPtrAAAAAJ&hl=ko">Yukyung Choi</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Sejong University,</span>
+              <span class="author-block"><sup>2</sup>NAVER Cloud</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Paper Link. -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2603.29616" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <!-- Video Link. -->
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                    </span>
+                    <span>Video</span>
+                  </a>
+                </span>
+
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/sejong-rcv/Video-Oasis" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- Data Link. -->
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="far fa-images"></i>
+                    </span>
+                    <span>Data</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tldr-section">
+    <div class="container is-max-desktop">
+      <div class="tldr-content">
+        <span class="tldr-label">TL;DR</span>
+        <p class="tldr-text">
+          Video-Oasis rethinks the current benchmark landscape by examining whether proliferating video benchmarks truly satisfy <strong>shared criteria</strong> for genuine video understanding.
+        </p>
+      </div>
+      <div class="tldr-divider"></div>
+    </div>
+  </section>
+
+  <section class="section question-section" id="questions">
+    <div class="container is-max-desktop">
+      <div class="question-content">
+        <h2 class="question-title">
+          <span class="highlight-word">What</span> makes a video benchmark truly measure video understanding?
+        </h2>
+
+        <div class="question-criteria" aria-label="Core video benchmark criteria">
+          <div class="question-criterion">
+            <span class="question-criterion-label">Visual Grounding</span>
+            <strong>Evidence must be grounded in video frames and pixels.</strong>
+          </div>
+          <div class="question-criterion">
+            <span class="question-criterion-label">Temporal Reasoning</span>
+            <strong>Video understanding must rely on the flow of time itself.</strong>
+          </div>
+        </div>
+
+        <p class="question-description">
+          Video benchmarks are rapidly expanding, but high scores do not always imply genuine video understanding. Many video-QA samples can be answered using language priors, audio cues, captions, or single-frame evidence. Here, we first expose such non-video shortcuts through concrete cases.
+        </p>
+
+        <div class="question-shortcuts" aria-label="Common non-video shortcut sources">
+          <span>Language priors</span>
+          <span>Audio cues</span>
+          <span>Text cues</span>
+          <span>Static context</span>
+          <span>Single-frame evidence</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section shortcut-overview-section" id="shortcut-examples">
+    <div class="container is-max-widescreen">
+      <div class="shortcut-overview-header">
+        <div>
+          <span class="shortcut-gallery-kicker">Diagnostic cases</span>
+          <h2 class="shortcut-gallery-title">Examples of Non-Video Shortcut Problems</h2>
+        </div>
+        <div class="shortcut-overview-controls" aria-label="Shortcut case navigation">
+          <button class="shortcut-overview-control shortcut-overview-prev" type="button" aria-label="Previous shortcut case">
+            <span class="icon" aria-hidden="true">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+          </button>
+          <button class="shortcut-overview-control shortcut-overview-next" type="button" aria-label="Next shortcut case">
+            <span class="icon" aria-hidden="true">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="shortcut-overview-rail" tabindex="0" aria-label="Scrollable non-video shortcut examples">
+        <figure class="shortcut-overview-card">
+          <img src="./static/images/shortcut/shortcut1.png" alt="Shortcut case solvable through arithmetic reasoning without video evidence.">
+          <figcaption>Case 01</figcaption>
+        </figure>
+
+        <figure class="shortcut-overview-card">
+          <img src="./static/images/shortcut/shortcut2.png" alt="Shortcut case solvable from a single video frame.">
+          <figcaption>Case 02</figcaption>
+        </figure>
+
+        <figure class="shortcut-overview-card">
+          <img src="./static/images/shortcut/shortcut3.png" alt="Shortcut case solvable through world knowledge without viewing the video.">
+          <figcaption>Case 03</figcaption>
+        </figure>
+
+        <figure class="shortcut-overview-card">
+          <img src="./static/images/shortcut/shortcut4.png" alt="Shortcut case solvable from static weather context across frames.">
+          <figcaption>Case 04</figcaption>
+        </figure>
+
+        <figure class="shortcut-overview-card">
+          <img src="./static/images/shortcut/shortcut5.png" alt="Shortcut case solvable from static scene context without temporal reasoning.">
+          <figcaption>Case 05</figcaption>
+        </figure>
+
+        <figure class="shortcut-overview-card">
+          <img src="./static/images/shortcut/shortcut6.png" alt="Shortcut case solvable through linguistic reasoning from audio evidence.">
+          <figcaption>Case 06</figcaption>
+        </figure>
+
+        <figure class="shortcut-overview-card">
+          <img src="./static/images/shortcut/shortcut7.png" alt="Shortcut case influenced by Super Mario dataset bias.">
+          <figcaption>Case 07</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive shortcut gallery temporarily disabled.
+  <section class="section shortcut-gallery-section" id="shortcut-gallery">
+    <div class="container is-max-desktop">
+      <div class="shortcut-gallery-header">
+        <div>
+          <span class="shortcut-gallery-kicker">Diagnostic cases</span>
+          <h2 class="shortcut-gallery-title">An Example of Non-Video Shortcut Problems</h2>
+        </div>
+      </div>
+
+      <div class="shortcut-gallery-grid">
+        <div
+          class="shortcut-card"
+          role="button"
+          tabindex="0"
+          data-media-type="image"
+          data-media-src="./static/images/shortcut/shortcut1.png"
+          data-benchmark="tmp"
+          data-question="tmp"
+          data-answer="tmp"
+          data-type="tmp"
+          data-reason="tmp">
+          <div class="shortcut-card-media-wrapper">
+            <img src="./static/images/shortcut/shortcut1.png" alt="Visual-dependency shortcut case based on world knowledge">
+            <div class="shortcut-card-overlay">
+              <span class="shortcut-card-pill">tmp</span>
+            </div>
+          </div>
+          <div class="shortcut-card-body">
+            <div class="shortcut-card-meta">
+              <span class="shortcut-card-tag">tmp</span>
+              <span class="shortcut-card-index">Case 01</span>
+            </div>
+            <div class="shortcut-card-diagnosis">
+              <span>Why shortcut?</span>
+              <strong>tmp</strong>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="shortcut-card"
+          role="button"
+          tabindex="0"
+          data-media-type="image"
+          data-media-src="./static/images/shortcut/shortcut2.png"
+          data-benchmark="tmp"
+          data-question="tmp"
+          data-answer="tmp"
+          data-type="tmp"
+          data-reason="tmp">
+          <div class="shortcut-card-media-wrapper">
+            <img src="./static/images/shortcut/shortcut2.png" alt="Visual-dependency shortcut case based on dataset bias">
+            <div class="shortcut-card-overlay">
+              <span class="shortcut-card-pill">tmp</span>
+            </div>
+          </div>
+          <div class="shortcut-card-body">
+            <div class="shortcut-card-meta">
+              <span class="shortcut-card-tag">tmp</span>
+              <span class="shortcut-card-index">Case 02</span>
+            </div>
+            <div class="shortcut-card-diagnosis">
+              <span>Why shortcut?</span>
+              <strong>tmp</strong>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="shortcut-card"
+          role="button"
+          tabindex="0"
+          data-media-type="image"
+          data-media-src="./static/images/shortcut/shortcut3.png"
+          data-benchmark="tmp"
+          data-question="tmp"
+          data-answer="tmp"
+          data-type="tmp"
+          data-reason="tmp">
+          <div class="shortcut-card-media-wrapper">
+            <img src="./static/images/shortcut/shortcut3.png" alt="Visual-dependency shortcut case based on document understanding">
+            <div class="shortcut-card-overlay">
+              <span class="shortcut-card-pill">tmp</span>
+            </div>
+          </div>
+          <div class="shortcut-card-body">
+            <div class="shortcut-card-meta">
+              <span class="shortcut-card-tag">tmp</span>
+              <span class="shortcut-card-index">Case 03</span>
+            </div>
+            <div class="shortcut-card-diagnosis">
+              <span>Why shortcut?</span>
+              <strong>tmp</strong>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="shortcut-card"
+          role="button"
+          tabindex="0"
+          data-media-type="image"
+          data-media-src="./static/images/shortcut/shortcut4.png"
+          data-benchmark="tmp"
+          data-question="tmp"
+          data-answer="tmp"
+          data-type="tmp"
+          data-reason="tmp">
+          <div class="shortcut-card-media-wrapper">
+            <img src="./static/images/shortcut/shortcut4.png" alt="Temporal-dependency shortcut case lacking dynamic evidence">
+            <div class="shortcut-card-overlay">
+              <span class="shortcut-card-pill">tmp</span>
+            </div>
+          </div>
+          <div class="shortcut-card-body">
+            <div class="shortcut-card-meta">
+              <span class="shortcut-card-tag">tmp</span>
+              <span class="shortcut-card-index">Case 04</span>
+            </div>
+            <div class="shortcut-card-diagnosis">
+              <span>Why shortcut?</span>
+              <strong>tmp</strong>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="shortcut-card"
+          role="button"
+          tabindex="0"
+          data-media-type="image"
+          data-media-src="./static/images/shortcut/shortcut5.png"
+          data-benchmark="tmp"
+          data-question="tmp"
+          data-answer="tmp"
+          data-type="tmp"
+          data-reason="tmp">
+          <div class="shortcut-card-media-wrapper">
+            <img src="./static/images/shortcut/shortcut5.png" alt="Temporal-dependency shortcut case based on static weather evidence">
+            <div class="shortcut-card-overlay">
+              <span class="shortcut-card-pill">tmp</span>
+            </div>
+          </div>
+          <div class="shortcut-card-body">
+            <div class="shortcut-card-meta">
+              <span class="shortcut-card-tag">tmp</span>
+              <span class="shortcut-card-index">Case 05</span>
+            </div>
+            <div class="shortcut-card-diagnosis">
+              <span>Why shortcut?</span>
+              <strong>tmp</strong>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="shortcut-card"
+          role="button"
+          tabindex="0"
+          data-media-type="video"
+          data-media-src="./static/videos/EmbodiedPerspective_171.mp4"
+          data-poster="./static/images/shortcut/shortcut6.png"
+          data-benchmark="tmp"
+          data-question="tmp"
+          data-answer="tmp"
+          data-type="tmp"
+          data-reason="tmp">
+          <div class="shortcut-card-media-wrapper">
+            <img src="./static/images/shortcut/shortcut6.png" alt="Temporal-dependency shortcut case invariant to event order">
+            <div class="shortcut-card-overlay">
+              <span class="shortcut-card-pill">tmp</span>
+            </div>
+          </div>
+          <div class="shortcut-card-body">
+            <div class="shortcut-card-meta">
+              <span class="shortcut-card-tag">tmp</span>
+              <span class="shortcut-card-index">Case 06</span>
+            </div>
+            <div class="shortcut-card-diagnosis">
+              <span>Why shortcut?</span>
+              <strong>tmp</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="shortcut-modal" id="shortcut-modal">
+    <div class="shortcut-modal-background"></div>
+
+    <div class="shortcut-modal-content">
+      <button class="shortcut-modal-close" aria-label="close">&times;</button>
+
+      <div class="shortcut-modal-layout">
+        <div class="shortcut-modal-media-wrapper">
+          <img id="modal-image" src="./static/images/teaser.png" alt="tmp">
+          <video id="modal-video" controls playsinline preload="metadata" hidden></video>
+          <div class="shortcut-modal-media-caption">
+            <span>Case preview</span>
+          </div>
+        </div>
+
+        <div class="shortcut-modal-body">
+          <div class="shortcut-modal-header">
+            <span class="shortcut-modal-tag" id="modal-type">tmp</span>
+            <span class="shortcut-modal-benchmark" id="modal-benchmark">tmp</span>
+          </div>
+
+          <div class="shortcut-modal-question">
+            <h4>Question</h4>
+            <p id="modal-question">tmp</p>
+          </div>
+
+          <div class="shortcut-modal-fields">
+            <div class="shortcut-modal-field">
+              <h4>Answer</h4>
+              <p id="modal-answer">tmp</p>
+            </div>
+
+            <div class="shortcut-modal-field">
+              <h4>Why Shortcut?</h4>
+              <p id="modal-reason">tmp</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <section class="section graph-section" id="performance-shortcut">
+    <div class="container is-max-desktop">
+      <div class="graph-content">
+        <span class="graph-kicker">Benchmark-wide pattern</span>
+
+        <h2 class="graph-title">
+          High Benchmark Scores, High Shortcut Ratios
+        </h2>
+
+        <p class="graph-description">
+          The shortcut examples above are not rare corner cases. Across 14 video benchmarks spanning spatial perception, temporal understanding, reasoning, and holistic video comprehension, we quantify how often each benchmark can be solved without full visual or temporal dependency. The results show that higher benchmark scores often coincide with higher shortcut solvability, suggesting inflated performance under weak video-native requirements.
+        </p>
+
+        <div class="graph-insights" aria-label="Shortcut ratio analysis summary">
+          <div class="graph-insight graph-insight-number">
+            <span>Benchmarks analyzed</span>
+            <strong>14</strong>
+          </div>
+          <div class="graph-insight">
+            <span>Coverage</span>
+            <div class="graph-insight-tags" aria-label="Benchmark coverage areas">
+              <strong>Spatial</strong>
+              <strong>Temporal</strong>
+              <strong>Reasoning</strong>
+              <strong>Holistic</strong>
+            </div>
+          </div>
+          <div class="graph-insight">
+            <span>Key pattern</span>
+            <strong>Higher scores can align with higher shortcut solvability.</strong>
+          </div>
+        </div>
+
+        <figure class="graph-figure">
+          <img
+            src="./static/images/Performance_Shortcut.png"
+            alt="Benchmark accuracy and shortcut ratio across video understanding benchmarks.">
+          <figcaption>
+            Shortcut ratio is compared against reported benchmark accuracy across the benchmark suite.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section graph-section" id="performance-collapse">
+    <div class="container is-max-desktop">
+      <div class="graph-content">
+        <span class="graph-kicker">Filtered evaluation</span>
+
+        <h2 class="graph-title">
+          Removing Shortcuts Reveals the Real Challenge
+        </h2>
+
+        <p class="graph-description">
+          Once shortcut-solvable samples are removed, benchmark accuracy drops sharply across state-of-the-art video-LLMs. On the remaining video-native challenges, most models perform only marginally above random chance. This reveals that high benchmark scores can mask a substantial gap in genuine spatio-temporal understanding.
+        </p>
+
+        <div class="graph-insights graph-insights-two" aria-label="Filtered evaluation summary">
+          <div class="graph-insight">
+            <span>Filtered setting</span>
+            <strong>Shortcut-solvable samples removed</strong>
+          </div>
+          <div class="graph-insight">
+            <span>Observed effect</span>
+            <strong>Accuracy drops toward random chance.</strong>
+          </div>
+        </div>
+
+        <figure class="graph-figure">
+          <img
+            src="./static/images/Performance_Collapse.png"
+            alt="Performance collapse after filtering shortcut-solvable benchmark samples.">
+          <figcaption>
+            Model accuracy is recomputed after removing samples that can be solved through non-video shortcuts.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section question-section" id="what-is-video-oasis">
+    <div class="container is-max-desktop">
+      <div class="question-content">
+        <span class="question-kicker">Diagnostic framework</span>
+
+        <h2 class="question-title">
+          <span class="highlight-word">What</span> is Video-Oasis?
+        </h2>
+
+        <p class="question-description">
+          Video-Oasis verifies whether each benchmark sample truly requires visual evidence and temporal context, while resolving ambiguity through human verification. These complementary diagnostics identify shortcut-solvable cases and isolate video-native challenges for genuine spatio-temporal understanding.
+        </p>
+
+        <div class="oasis-steps" aria-label="Video-Oasis diagnostic criteria">
+          <div class="oasis-step">
+            <span class="oasis-step-index">01</span>
+            <strong>Visual</strong>
+            <p>Determine whether the task truly requires grounded visual perception rather than language, audio, or text-based cues.</p>
+          </div>
+          <div class="oasis-step">
+            <span class="oasis-step-index">02</span>
+            <strong>Temporal</strong>
+            <p>Determine whether the answer depends on temporal order and context rather than isolated or unordered frames.</p>
+          </div>
+          <div class="oasis-step">
+            <span class="oasis-step-index">03</span>
+            <strong>Ambiguity</strong>
+            <p>Ensure that questions have reliable annotations, unique answers, and evidence anchored to the relevant video context.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section graph-section" id="video-oasis-overview">
+    <div class="container is-max-desktop">
+      <div class="graph-content">
+        <figure class="graph-figure">
+          <img
+            src="./static/images/video-oasis.png"
+            alt="Overview of the Video-Oasis diagnostic suite.">
+          <figcaption>
+            Overview of the V-Oasis diagnostic suite, from visual-temporal dependency tests to shortcut filtering and video-native challenge distillation.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section challenge-section" id="video-native-challenges">
+    <div class="container is-max-desktop">
+      <div class="challenge-content">
+        <span class="challenge-kicker">Video-native challenges</span>
+
+        <h2 class="challenge-title">
+          What Challenges Remain After Filtering?
+        </h2>
+
+        <p class="challenge-description">
+          After filtering shortcut-solvable samples, V-Oasis distills five video-native challenges that require models to connect visual evidence across space and time, from fine-grained perception to long-range narrative understanding.
+        </p>
+
+        <figure class="challenge-figure">
+          <img
+            src="./static/images/teaser.png"
+            alt="Overview of video-native challenges distilled by Video-Oasis.">
+        </figure>
+
+        <div class="challenge-grid">
+          <div class="challenge-card">
+            <span class="challenge-card-index">01</span>
+            <h3>Fine-Grained Perception</h3>
+            <p>Ground fine-grained visual recognition in how details evolve across space and time.</p>
+          </div>
+
+          <div class="challenge-card">
+            <span class="challenge-card-index">02</span>
+            <h3>Spatial World Understanding</h3>
+            <p>Synthesize fragmented, multi-view evidence across frames to infer 3D positions, geometry, and trajectories.</p>
+          </div>
+
+          <div class="challenge-card">
+            <span class="challenge-card-index">03</span>
+            <h3>Temporal Dynamics &amp; Tracking</h3>
+            <p>Track objects, action sequences, and state transitions in their correct temporal order.</p>
+          </div>
+
+          <div class="challenge-card">
+            <span class="challenge-card-index">04</span>
+            <h3>Causality &amp; Logical Reasoning</h3>
+            <p>Infer cause-and-effect relationships, physical rules, and unobserved intentions beyond visible events.</p>
+          </div>
+
+          <div class="challenge-card challenge-card-wide">
+            <span class="challenge-card-index">05</span>
+            <h3>Global Narrative</h3>
+            <p>Aggregate events across the full timeline, filtering irrelevant context to understand overarching plots and long-term semantics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section results-section" id="model-results">
+    <div class="container is-max-desktop">
+      <div class="results-content">
+        <span class="results-kicker">Model evaluation</span>
+
+        <h2 class="results-title">
+          How Do Current Models Perform?
+        </h2>
+
+        <p class="results-description">
+          Across the distilled video-native challenges, most current models remain close to the random-chance level, with Global Narrative presenting a persistent bottleneck.
+        </p>
+
+        <div class="results-meta">
+          <span>Accuracy (%)</span>
+          <span>Random chance: 25.63%</span>
+        </div>
+
+        <div class="results-table-wrapper">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th scope="col">Model</th>
+                <th scope="col">Fine-Grained<br>Perception</th>
+                <th scope="col">Spatial<br>World</th>
+                <th scope="col">Temporal<br>Dynamics</th>
+                <th scope="col">Causal<br>Reasoning</th>
+                <th scope="col">Global<br>Narrative</th>
+                <th scope="col" class="results-overall">Overall</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="results-group">
+                <th colspan="7" scope="rowgroup">Proprietary LLMs</th>
+              </tr>
+              <tr>
+                <th scope="row">GPT-4o</th>
+                <td>25.6</td>
+                <td>33.2</td>
+                <td>26.3</td>
+                <td>27.3</td>
+                <td>26.5</td>
+                <td class="results-overall">27.5</td>
+              </tr>
+              <tr class="results-best">
+                <th scope="row">Gemini-2.5 Pro</th>
+                <td>40.2</td>
+                <td>49.8</td>
+                <td>50.9</td>
+                <td>45.4</td>
+                <td>43.0</td>
+                <td class="results-overall">46.7</td>
+              </tr>
+
+              <tr class="results-group">
+                <th colspan="7" scope="rowgroup">Open Source Video-LLMs</th>
+              </tr>
+              <tr>
+                <th scope="row">Qwen2.5-VL (7B)</th>
+                <td>23.3</td>
+                <td>28.7</td>
+                <td>32.3</td>
+                <td>28.6</td>
+                <td>21.2</td>
+                <td class="results-overall">29.2</td>
+              </tr>
+              <tr>
+                <th scope="row">Qwen3-VL Inst. (8B)</th>
+                <td>27.0</td>
+                <td>42.4</td>
+                <td>36.5</td>
+                <td>28.0</td>
+                <td>21.5</td>
+                <td class="results-overall">33.8</td>
+              </tr>
+              <tr>
+                <th scope="row">Qwen3-VL Think. (8B)</th>
+                <td>29.0</td>
+                <td>41.6</td>
+                <td>37.7</td>
+                <td>27.7</td>
+                <td>23.2</td>
+                <td class="results-overall">34.6</td>
+              </tr>
+              <tr>
+                <th scope="row">Eagle2.5 (8B)</th>
+                <td>26.9</td>
+                <td>31.0</td>
+                <td>39.7</td>
+                <td>33.2</td>
+                <td>22.7</td>
+                <td class="results-overall">34.5</td>
+              </tr>
+              <tr>
+                <th scope="row">InternVL-3 (8B)</th>
+                <td>27.0</td>
+                <td>31.3</td>
+                <td>34.1</td>
+                <td>30.6</td>
+                <td>24.5</td>
+                <td class="results-overall">31.6</td>
+              </tr>
+              <tr>
+                <th scope="row">InternVL-3.5 (8B)</th>
+                <td>29.5</td>
+                <td>41.9</td>
+                <td>35.1</td>
+                <td>29.8</td>
+                <td>23.3</td>
+                <td class="results-overall">33.6</td>
+              </tr>
+              <tr>
+                <th scope="row">Video-R1 (7B)</th>
+                <td>24.0</td>
+                <td>24.0</td>
+                <td>29.1</td>
+                <td>27.3</td>
+                <td>18.4</td>
+                <td class="results-overall">26.3</td>
+              </tr>
+              <tr>
+                <th scope="row">LongViLA-R1 (7B)</th>
+                <td>28.4</td>
+                <td>25.4</td>
+                <td>31.5</td>
+                <td>27.9</td>
+                <td>20.6</td>
+                <td class="results-overall">28.6</td>
+              </tr>
+              <tr>
+                <th scope="row">VideoAuto-R1 (8B)</th>
+                <td>27.5</td>
+                <td>44.3</td>
+                <td>39.5</td>
+                <td>31.1</td>
+                <td>28.9</td>
+                <td class="results-overall">36.8</td>
+              </tr>
+
+              <tr class="results-group">
+                <th colspan="7" scope="rowgroup">Agentic Methods</th>
+              </tr>
+              <tr>
+                <th scope="row">VideoTree (GPT5 mini)</th>
+                <td>28.6</td>
+                <td>34.0</td>
+                <td>32.3</td>
+                <td>24.6</td>
+                <td>20.7</td>
+                <td class="results-overall">30.1</td>
+              </tr>
+              <tr class="results-runner-up">
+                <th scope="row">VideoTool (GPT5 mini)</th>
+                <td>31.6</td>
+                <td>44.4</td>
+                <td>42.2</td>
+                <td>34.0</td>
+                <td>32.9</td>
+                <td class="results-overall">39.5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section insights-section" id="algorithmic-insights">
+    <div class="container is-max-desktop">
+      <div class="insights-content">
+        <div class="insights-header">
+          <div>
+            <span class="insights-kicker">Algorithmic insights</span>
+            <h2 class="insights-title">What Actually Drives Robust Video Understanding?</h2>
+          </div>
+
+          <div class="insights-controls" aria-label="Algorithmic insight navigation">
+            <button class="insights-control insights-control-prev" type="button" aria-label="Previous insight">
+              <span class="icon" aria-hidden="true">
+                <i class="fas fa-arrow-left"></i>
+              </span>
+            </button>
+            <button class="insights-control insights-control-next" type="button" aria-label="Next insight">
+              <span class="icon" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <p class="insights-description">
+          Using V-Oasis as a diagnostic testbed, we examine the hypotheses, evidence, and practical lessons behind stronger reasoning under strict spatio-temporal dependency.
+        </p>
+
+        <div class="insights-rail" tabindex="0" aria-label="Scrollable algorithmic insights">
+          <article class="insight-panel">
+            <div class="insight-panel-topline">
+              <span class="insight-panel-index">01</span>
+              <span class="insight-panel-label">Temporal Grounding</span>
+            </div>
+            <h3>Can better grounding unlock video-native reasoning?</h3>
+            <div class="insight-evidence">
+              <div>
+                <span>Current SOTA grounding</span>
+                <strong>31.5 → 32.9</strong>
+              </div>
+              <div>
+                <span>Oracle grounding in V-Oasis</span>
+                <strong>35.0 → 50.8</strong>
+              </div>
+              <div>
+                <span>Oracle grounding in shortcuts</span>
+                <strong>78.0 → 80.8</strong>
+              </div>
+            </div>
+            <p class="insight-takeaway">
+              <span>Takeaway</span>
+              Precise localization matters primarily when strong spatio-temporal dependency is required.
+            </p>
+          </article>
+
+          <article class="insight-panel">
+            <div class="insight-panel-topline">
+              <span class="insight-panel-index">02</span>
+              <span class="insight-panel-label">Adaptive Reasoning</span>
+            </div>
+            <h3>Should models always think deeply?</h3>
+            <div class="insight-evidence insight-evidence-grid">
+              <div>
+                <span>Qwen3-VL Instruct</span>
+                <strong>33.8</strong>
+              </div>
+              <div>
+                <span>Qwen3-VL Thinking</span>
+                <strong>34.6</strong>
+              </div>
+              <div>
+                <span>Qwen3-VL Auto-R1</span>
+                <strong>36.8</strong>
+              </div>
+              <div>
+                <span>Oracle selection</span>
+                <strong>46.2</strong>
+              </div>
+            </div>
+            <p class="insight-takeaway">
+              <span>Takeaway</span>
+              Selecting when to think and when to perceive can be as important as model scale.
+            </p>
+          </article>
+
+          <article class="insight-panel">
+            <div class="insight-panel-topline">
+              <span class="insight-panel-index">03</span>
+              <span class="insight-panel-label">Training Paradigms</span>
+            </div>
+
+            <h3>Is one training paradigm always better?</h3>
+
+            <p class="insight-context">Shared base model: Qwen2.5-VL</p>
+
+            <div class="insight-evidence insight-evidence-grid">
+              <div>
+                <span>Baseline</span>
+                <strong>29.1</strong>
+              </div>
+              <div>
+                <span>Long-context SFT</span>
+                <strong>34.5</strong>
+              </div>
+              <div>
+                <span>RLVR · QA only</span>
+                <strong>26.3</strong>
+              </div>
+              <div>
+                <span>RLVR · QA + grounding</span>
+                <strong>32.7</strong>
+              </div>
+            </div>
+
+            <p class="insight-takeaway">
+              <span>Takeaway</span>
+              Neither paradigm is universally superior: SFT improves overall performance, while RLVR depends heavily on reward design.
+            </p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+
+      <pre><code>@article{lim2026videooasis,
+
+
+author    = {Geuntaek Lim and Sungjune Park and Jaeyun Lee and Inwoong Lee and Taeoh Kim and Dongyoon Wee and Minho Shim and Yukyung Choi},
+title     = {Video-Oasis: Rethinking Evaluation of Video Understanding},
+journal   = {arXiv preprint arXiv:2603.29616},
+year      = {2026},
+}</code></pre>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            The website template is from <a href="https://github.com/nerfies/nerfies.github.io">here</a>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
