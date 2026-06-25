@@ -179,12 +179,22 @@
       </div>
 
       <!--
-        All cases are shown at once in a grid. Each card opens a detail popup on
-        click (video on the left, Category/Question/Options/Answer on the right).
-        TODO: replace each card's poster (./static/images/shortcut/shortcutN.png)
-        and video source (data-src on the <video>, data-media-src on the <figure>)
-        with the per-case clip, e.g. ./static/videos/shortcut1.mp4 .. shortcut7.mp4.
-        For now every card points to the one available clip as a live placeholder.
+        All cases are shown at once in a grid. Each card shows a lightweight
+        layout preview and opens a detail popup on click (video on the left,
+        Category/Question/Options/Answer on the right).
+
+        The baked poster PNGs in ./static/images/shortcut/ are intentionally
+        left in the repo but no longer linked here.
+
+        Source clips per case (set data-media-src once the file is in static/videos/):
+          Case 01  Arithmetic Reasoning  Video-MME    t6V9i8fFADI.mp4
+          Case 02  Single Frame          MVBench      video_14667.mp4
+          Case 03  World Knowledge       Video-MME    CKYw_RG7i7w.mp4
+          Case 04  Static Context        Video-MME    erjwCQ-UZyw.mp4
+          Case 05  Static Context        RTV-Bench    EmbodiedPerspective_171.mp4  (already present)
+          Case 06  Linguistic Reasoning  Video-MME    IPqb_oDlGBU.mp4
+          Case 07  Dataset Bias          ImplicitQA   -EIXPOw_Wzs.mp4
+        Only Case 05's clip exists locally; every card currently points to it as a placeholder.
       -->
       <div class="shortcut-overview-rail" aria-label="Non-video shortcut examples">
         <figure class="shortcut-overview-card" role="button" tabindex="0"
@@ -198,10 +208,16 @@
           data-correct="A"
           data-answer="A. $4.5 per share."
           data-reason="Pure arithmetic over the numbers stated in the text. The video frames provide no evidence needed to compute the tax.">
-          <video class="shortcut-overview-video" muted loop playsinline preload="none"
-            poster="./static/images/shortcut/shortcut1.png"
-            data-src="./static/videos/EmbodiedPerspective_171.mp4"
-            aria-hidden="true"></video>
+          <div class="shortcut-overview-preview" aria-hidden="true">
+            <span class="shortcut-overview-preview-media">
+              <span class="shortcut-overview-preview-play"><i class="fas fa-play"></i></span>
+            </span>
+            <span class="shortcut-overview-preview-text">
+              <span class="shortcut-overview-preview-category">Arithmetic Reasoning</span>
+              <span class="shortcut-overview-preview-line"></span>
+              <span class="shortcut-overview-preview-line is-short"></span>
+            </span>
+          </div>
           <figcaption>Case 01</figcaption>
         </figure>
 
@@ -216,10 +232,16 @@
           data-correct="D"
           data-answer="D. cyan"
           data-reason="The cube never moves, so a single frame fully reveals its color. No temporal information is required.">
-          <video class="shortcut-overview-video" muted loop playsinline preload="none"
-            poster="./static/images/shortcut/shortcut2.png"
-            data-src="./static/videos/EmbodiedPerspective_171.mp4"
-            aria-hidden="true"></video>
+          <div class="shortcut-overview-preview" aria-hidden="true">
+            <span class="shortcut-overview-preview-media">
+              <span class="shortcut-overview-preview-play"><i class="fas fa-play"></i></span>
+            </span>
+            <span class="shortcut-overview-preview-text">
+              <span class="shortcut-overview-preview-category">Single Frame</span>
+              <span class="shortcut-overview-preview-line"></span>
+              <span class="shortcut-overview-preview-line is-short"></span>
+            </span>
+          </div>
           <figcaption>Case 02</figcaption>
         </figure>
 
@@ -234,10 +256,16 @@
           data-correct="B"
           data-answer="B. 4"
           data-reason="Answerable from external world knowledge about the Gucci family. The video itself is never needed (a 'blind video' case).">
-          <video class="shortcut-overview-video" muted loop playsinline preload="none"
-            poster="./static/images/shortcut/shortcut3.png"
-            data-src="./static/videos/EmbodiedPerspective_171.mp4"
-            aria-hidden="true"></video>
+          <div class="shortcut-overview-preview" aria-hidden="true">
+            <span class="shortcut-overview-preview-media">
+              <span class="shortcut-overview-preview-play"><i class="fas fa-play"></i></span>
+            </span>
+            <span class="shortcut-overview-preview-text">
+              <span class="shortcut-overview-preview-category">World Knowledge</span>
+              <span class="shortcut-overview-preview-line"></span>
+              <span class="shortcut-overview-preview-line is-short"></span>
+            </span>
+          </div>
           <figcaption>Case 03</figcaption>
         </figure>
 
@@ -252,10 +280,16 @@
           data-correct="B"
           data-answer="B. Sunny."
           data-reason="The weather is constant across every frame, so any single frame suffices. No temporal reasoning is needed.">
-          <video class="shortcut-overview-video" muted loop playsinline preload="none"
-            poster="./static/images/shortcut/shortcut4.png"
-            data-src="./static/videos/EmbodiedPerspective_171.mp4"
-            aria-hidden="true"></video>
+          <div class="shortcut-overview-preview" aria-hidden="true">
+            <span class="shortcut-overview-preview-media">
+              <span class="shortcut-overview-preview-play"><i class="fas fa-play"></i></span>
+            </span>
+            <span class="shortcut-overview-preview-text">
+              <span class="shortcut-overview-preview-category">Static Context</span>
+              <span class="shortcut-overview-preview-line"></span>
+              <span class="shortcut-overview-preview-line is-short"></span>
+            </span>
+          </div>
           <figcaption>Case 04</figcaption>
         </figure>
 
@@ -270,10 +304,16 @@
           data-correct="D"
           data-answer="D. Two hands"
           data-reason="The scene content is static throughout the clip; a single frame answers the question.">
-          <video class="shortcut-overview-video" muted loop playsinline preload="none"
-            poster="./static/images/shortcut/shortcut5.png"
-            data-src="./static/videos/EmbodiedPerspective_171.mp4"
-            aria-hidden="true"></video>
+          <div class="shortcut-overview-preview" aria-hidden="true">
+            <span class="shortcut-overview-preview-media">
+              <span class="shortcut-overview-preview-play"><i class="fas fa-play"></i></span>
+            </span>
+            <span class="shortcut-overview-preview-text">
+              <span class="shortcut-overview-preview-category">Static Context</span>
+              <span class="shortcut-overview-preview-line"></span>
+              <span class="shortcut-overview-preview-line is-short"></span>
+            </span>
+          </div>
           <figcaption>Case 05</figcaption>
         </figure>
 
@@ -288,10 +328,16 @@
           data-correct="A"
           data-answer="A. Perfect."
           data-reason="The answer is carried entirely by the audio transcript ('to me is the perfect example'), not the visual stream.">
-          <video class="shortcut-overview-video" muted loop playsinline preload="none"
-            poster="./static/images/shortcut/shortcut6.png"
-            data-src="./static/videos/EmbodiedPerspective_171.mp4"
-            aria-hidden="true"></video>
+          <div class="shortcut-overview-preview" aria-hidden="true">
+            <span class="shortcut-overview-preview-media">
+              <span class="shortcut-overview-preview-play"><i class="fas fa-play"></i></span>
+            </span>
+            <span class="shortcut-overview-preview-text">
+              <span class="shortcut-overview-preview-category">Linguistic Reasoning</span>
+              <span class="shortcut-overview-preview-line"></span>
+              <span class="shortcut-overview-preview-line is-short"></span>
+            </span>
+          </div>
           <figcaption>Case 06</figcaption>
         </figure>
 
@@ -306,10 +352,16 @@
           data-correct="A"
           data-answer="A. The blue mushroom he ate"
           data-reason="Solvable from Super Mario game priors. The model can guess from dataset and world bias without watching the video.">
-          <video class="shortcut-overview-video" muted loop playsinline preload="none"
-            poster="./static/images/shortcut/shortcut7.png"
-            data-src="./static/videos/EmbodiedPerspective_171.mp4"
-            aria-hidden="true"></video>
+          <div class="shortcut-overview-preview" aria-hidden="true">
+            <span class="shortcut-overview-preview-media">
+              <span class="shortcut-overview-preview-play"><i class="fas fa-play"></i></span>
+            </span>
+            <span class="shortcut-overview-preview-text">
+              <span class="shortcut-overview-preview-category">Dataset Bias (Super Mario)</span>
+              <span class="shortcut-overview-preview-line"></span>
+              <span class="shortcut-overview-preview-line is-short"></span>
+            </span>
+          </div>
           <figcaption>Case 07</figcaption>
         </figure>
       </div>
