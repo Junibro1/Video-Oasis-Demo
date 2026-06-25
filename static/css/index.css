@@ -788,6 +788,10 @@ letter-spacing: 0.08em;
 margin-bottom: 0.45rem;
 }
 
+.shortcut-modal-category-right {
+text-align: right;
+}
+
 .shortcut-modal-tag {
 display: inline-block;
 font-size: 0.8rem;

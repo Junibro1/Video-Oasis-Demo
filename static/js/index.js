@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const modalImage = document.getElementById("modal-image");
     const modalVideo = document.getElementById("modal-video");
     const modalType = document.getElementById("modal-type");
+    const modalBenchmark = document.getElementById("modal-benchmark");
     const modalQuestion = document.getElementById("modal-question");
     const modalOptions = document.getElementById("modal-options");
     const modalAnswer = document.getElementById("modal-answer");
@@ -102,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       modalType.textContent = type;
+      modalBenchmark.textContent = getCardValue(card, "benchmark");
       modalQuestion.textContent = question;
       renderOptions(getCardValue(card, "options"), getCardValue(card, "correct"));
       modalAnswer.textContent = getCardValue(card, "answer");
