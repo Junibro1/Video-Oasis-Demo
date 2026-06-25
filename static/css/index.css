@@ -341,8 +341,8 @@ cursor: default;
 
 .shortcut-overview-rail {
 display: grid;
-grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-gap: 1.1rem;
+grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+gap: 1.25rem;
 padding: 0.15rem 0 0.4rem;
 }
 
@@ -444,7 +444,7 @@ gap: 0;
 }
 
 .shortcut-overview-rail {
-grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+grid-template-columns: 1fr;
 }
 }
 
