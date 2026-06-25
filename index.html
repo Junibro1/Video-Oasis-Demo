@@ -176,29 +176,17 @@
           <span class="shortcut-gallery-kicker">Diagnostic cases</span>
           <h2 class="shortcut-gallery-title">Examples of Non-Video Shortcut Problems</h2>
         </div>
-        <div class="shortcut-overview-controls" aria-label="Shortcut case navigation">
-          <button class="shortcut-overview-control shortcut-overview-prev" type="button" aria-label="Previous shortcut case">
-            <span class="icon" aria-hidden="true">
-              <i class="fas fa-arrow-left"></i>
-            </span>
-          </button>
-          <button class="shortcut-overview-control shortcut-overview-next" type="button" aria-label="Next shortcut case">
-            <span class="icon" aria-hidden="true">
-              <i class="fas fa-arrow-right"></i>
-            </span>
-          </button>
-        </div>
       </div>
 
       <!--
-        Each card previews a video on hover and opens a detail popup on click
-        (video on the left, Category/Question/Options/Answer on the right).
+        All cases are shown at once in a grid. Each card opens a detail popup on
+        click (video on the left, Category/Question/Options/Answer on the right).
         TODO: replace each card's poster (./static/images/shortcut/shortcutN.png)
         and video source (data-src on the <video>, data-media-src on the <figure>)
         with the per-case clip, e.g. ./static/videos/shortcut1.mp4 .. shortcut7.mp4.
         For now every card points to the one available clip as a live placeholder.
       -->
-      <div class="shortcut-overview-rail" tabindex="0" aria-label="Scrollable non-video shortcut examples">
+      <div class="shortcut-overview-rail" aria-label="Non-video shortcut examples">
         <figure class="shortcut-overview-card" role="button" tabindex="0"
           aria-label="Open Case 01: Arithmetic Reasoning"
           data-type="Arithmetic Reasoning"
