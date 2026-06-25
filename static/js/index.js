@@ -180,6 +180,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const shortcutCards = Array.from(shortcutRail.querySelectorAll(".shortcut-overview-card"));
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let isDraggingShortcut = false;
+    let shortcutPointerDown = false;
+    let shortcutPointerId = null;
     let shortcutDragStartX = 0;
     let shortcutDragStartScrollLeft = 0;
     let shortcutTurnTimer = null;
@@ -288,45 +290,61 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      isDraggingShortcut = true;
+      // Don't capture the pointer yet — capturing here would steal the click
+      // from the cards and stop the detail popup from opening. We only start a
+      // real drag (and capture) once the pointer actually moves far enough.
+      shortcutPointerDown = true;
+      isDraggingShortcut = false;
       shortcutRailDragged = false;
+      shortcutPointerId = event.pointerId;
       shortcutDragStartX = event.clientX;
       shortcutDragStartScrollLeft = shortcutRail.scrollLeft;
-      shortcutRail.classList.add("is-dragging");
-      shortcutRail.setPointerCapture(event.pointerId);
     });
 
     shortcutRail.addEventListener("pointermove", function (event) {
-      if (!isDraggingShortcut) {
+      if (!shortcutPointerDown) {
         return;
       }
 
       const movement = event.clientX - shortcutDragStartX;
 
-      if (Math.abs(movement) > 6) {
+      if (!isDraggingShortcut && Math.abs(movement) > 6) {
+        isDraggingShortcut = true;
         shortcutRailDragged = true;
+        shortcutRail.classList.add("is-dragging");
+        try {
+          shortcutRail.setPointerCapture(shortcutPointerId);
+        } catch (error) {
+          /* capture may fail if the pointer is already gone */
+        }
       }
 
-      shortcutRail.scrollLeft = shortcutDragStartScrollLeft - movement;
+      if (isDraggingShortcut) {
+        shortcutRail.scrollLeft = shortcutDragStartScrollLeft - movement;
+      }
     });
 
     function stopShortcutDragging(event) {
-      if (!isDraggingShortcut) {
+      if (!shortcutPointerDown) {
         return;
       }
 
-      isDraggingShortcut = false;
-      shortcutRail.classList.remove("is-dragging");
+      shortcutPointerDown = false;
 
-      if (shortcutRail.hasPointerCapture(event.pointerId)) {
-        shortcutRail.releasePointerCapture(event.pointerId);
+      if (isDraggingShortcut) {
+        isDraggingShortcut = false;
+        shortcutRail.classList.remove("is-dragging");
+
+        if (shortcutRail.hasPointerCapture(event.pointerId)) {
+          shortcutRail.releasePointerCapture(event.pointerId);
+        }
+
+        const targetIndex = Math.max(0, Math.min(shortcutCards.length - 1, getCurrentShortcutIndex()));
+        shortcutRail.scrollTo({
+          left: targetIndex * getShortcutScrollAmount(),
+          behavior: reduceMotion.matches ? "auto" : "smooth"
+        });
       }
-
-      const targetIndex = Math.max(0, Math.min(shortcutCards.length - 1, getCurrentShortcutIndex()));
-      shortcutRail.scrollTo({
-        left: targetIndex * getShortcutScrollAmount(),
-        behavior: reduceMotion.matches ? "auto" : "smooth"
-      });
 
       // Let the click that immediately follows a real drag be swallowed, then reset.
       window.setTimeout(function () {
