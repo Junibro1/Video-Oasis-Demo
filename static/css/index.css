@@ -431,13 +431,20 @@ box-shadow: 0 22px 44px rgba(15, 23, 42, 0.18);
 filter: saturate(0.98);
 }
 
-.shortcut-overview-card img {
+.shortcut-overview-card img,
+.shortcut-overview-card video {
 display: block;
 width: 100%;
 height: auto;
 border-radius: 9px;
 user-select: none;
 -webkit-user-drag: none;
+}
+
+.shortcut-overview-card video {
+aspect-ratio: 16 / 9;
+object-fit: cover;
+background: #0f172a;
 }
 
 .shortcut-overview-card figcaption {
@@ -809,6 +816,15 @@ align-items: center;
 justify-content: space-between;
 gap: 0.75rem;
 margin-bottom: 1.25rem;
+}
+
+.shortcut-modal-category h4 {
+font-size: 0.75rem;
+font-weight: 800;
+color: #94a3b8;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+margin-bottom: 0.45rem;
 }
 
 .shortcut-modal-tag {

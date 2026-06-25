@@ -73,7 +73,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const question = getCardValue(card, "question");
       const mediaType = getCardValue(card, "mediaType") || "image";
       const mediaSrc = getCardValue(card, "mediaSrc");
-      const poster = getCardValue(card, "poster");
+      const cardVideo = card.querySelector("video");
+      const poster = getCardValue(card, "poster")
+        || (cardVideo ? cardVideo.getAttribute("poster") : "")
+        || "";
 
       lastFocusedCard = card;
 
@@ -133,6 +136,29 @@ document.addEventListener("DOMContentLoaded", function () {
           openModal(card);
         }
       });
+
+      // Lazily load and preview the card video on hover / focus.
+      const cardVideo = card.querySelector("video.shortcut-overview-video");
+
+      if (cardVideo) {
+        const lazySrc = cardVideo.dataset.src;
+
+        function previewPlay() {
+          if (lazySrc && !cardVideo.src) {
+            cardVideo.src = lazySrc;
+          }
+          cardVideo.play().catch(function () {});
+        }
+
+        function previewPause() {
+          cardVideo.pause();
+        }
+
+        card.addEventListener("mouseenter", previewPlay);
+        card.addEventListener("mouseleave", previewPause);
+        card.addEventListener("focus", previewPlay);
+        card.addEventListener("blur", previewPause);
+      }
     });
 
     closeButton.addEventListener("click", closeModal);

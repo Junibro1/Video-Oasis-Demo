@@ -191,8 +191,11 @@
       </div>
 
       <!--
-        Each card opens a detail modal (video on the left, Q/A on the right).
-        TODO: replace data-media-src with the per-case clip, e.g. ./static/videos/shortcut1.mp4 .. shortcut7.mp4
+        Each card previews a video on hover and opens a detail popup on click
+        (video on the left, Category/Question/Options/Answer on the right).
+        TODO: replace each card's poster (./static/images/shortcut/shortcutN.png)
+        and video source (data-src on the <video>, data-media-src on the <figure>)
+        with the per-case clip, e.g. ./static/videos/shortcut1.mp4 .. shortcut7.mp4.
         For now every card points to the one available clip as a live placeholder.
       -->
       <div class="shortcut-overview-rail" tabindex="0" aria-label="Scrollable non-video shortcut examples">
@@ -206,7 +209,10 @@
           data-correct=""
           data-answer="$4.5 per share"
           data-reason="Pure arithmetic over the numbers stated in the text. The video frames provide no evidence needed to compute the tax.">
-          <img src="./static/images/shortcut/shortcut1.png" alt="Shortcut case solvable through arithmetic reasoning without video evidence.">
+          <video class="shortcut-overview-video" muted loop playsinline preload="none"
+            poster="./static/images/shortcut/shortcut1.png"
+            data-src="./static/videos/EmbodiedPerspective_171.mp4"
+            aria-hidden="true"></video>
           <figcaption>Case 01</figcaption>
         </figure>
 
@@ -220,7 +226,10 @@
           data-correct="B"
           data-answer="B. cyan"
           data-reason="The cube never moves, so a single frame fully reveals its color. No temporal information is required.">
-          <img src="./static/images/shortcut/shortcut2.png" alt="Shortcut case solvable from a single video frame.">
+          <video class="shortcut-overview-video" muted loop playsinline preload="none"
+            poster="./static/images/shortcut/shortcut2.png"
+            data-src="./static/videos/EmbodiedPerspective_171.mp4"
+            aria-hidden="true"></video>
           <figcaption>Case 02</figcaption>
         </figure>
 
@@ -234,7 +243,10 @@
           data-correct="B"
           data-answer="B. 4"
           data-reason="Answerable from external world knowledge about the Gucci family. The video itself is never needed (a 'blind video' case).">
-          <img src="./static/images/shortcut/shortcut3.png" alt="Shortcut case solvable through world knowledge without viewing the video.">
+          <video class="shortcut-overview-video" muted loop playsinline preload="none"
+            poster="./static/images/shortcut/shortcut3.png"
+            data-src="./static/videos/EmbodiedPerspective_171.mp4"
+            aria-hidden="true"></video>
           <figcaption>Case 03</figcaption>
         </figure>
 
@@ -248,7 +260,10 @@
           data-correct="B"
           data-answer="B. Sunny"
           data-reason="The weather is constant across every frame, so any single frame suffices. No temporal reasoning is needed.">
-          <img src="./static/images/shortcut/shortcut4.png" alt="Shortcut case solvable from static weather context across frames.">
+          <video class="shortcut-overview-video" muted loop playsinline preload="none"
+            poster="./static/images/shortcut/shortcut4.png"
+            data-src="./static/videos/EmbodiedPerspective_171.mp4"
+            aria-hidden="true"></video>
           <figcaption>Case 04</figcaption>
         </figure>
 
@@ -262,7 +277,10 @@
           data-correct="D"
           data-answer="D. Two hands"
           data-reason="The scene content is static throughout the clip; a single frame answers the question.">
-          <img src="./static/images/shortcut/shortcut5.png" alt="Shortcut case solvable from static scene context without temporal reasoning.">
+          <video class="shortcut-overview-video" muted loop playsinline preload="none"
+            poster="./static/images/shortcut/shortcut5.png"
+            data-src="./static/videos/EmbodiedPerspective_171.mp4"
+            aria-hidden="true"></video>
           <figcaption>Case 05</figcaption>
         </figure>
 
@@ -276,7 +294,10 @@
           data-correct="A"
           data-answer="A. Perfect"
           data-reason="The answer is carried entirely by the audio transcript ('to me is the perfect example'), not the visual stream.">
-          <img src="./static/images/shortcut/shortcut6.png" alt="Shortcut case solvable through linguistic reasoning from audio evidence.">
+          <video class="shortcut-overview-video" muted loop playsinline preload="none"
+            poster="./static/images/shortcut/shortcut6.png"
+            data-src="./static/videos/EmbodiedPerspective_171.mp4"
+            aria-hidden="true"></video>
           <figcaption>Case 06</figcaption>
         </figure>
 
@@ -290,7 +311,10 @@
           data-correct="A"
           data-answer="A. The blue mushroom he ate"
           data-reason="Solvable from Super Mario game priors. The model can guess from dataset and world bias without watching the video.">
-          <img src="./static/images/shortcut/shortcut7.png" alt="Shortcut case influenced by Super Mario dataset bias.">
+          <video class="shortcut-overview-video" muted loop playsinline preload="none"
+            poster="./static/images/shortcut/shortcut7.png"
+            data-src="./static/videos/EmbodiedPerspective_171.mp4"
+            aria-hidden="true"></video>
           <figcaption>Case 07</figcaption>
         </figure>
       </div>
@@ -314,7 +338,10 @@
 
         <div class="shortcut-modal-body">
           <div class="shortcut-modal-header">
-            <span class="shortcut-modal-tag" id="modal-type">Shortcut type</span>
+            <div class="shortcut-modal-category">
+              <h4>Category</h4>
+              <span class="shortcut-modal-tag" id="modal-type">Shortcut type</span>
+            </div>
           </div>
 
           <div class="shortcut-modal-question">
