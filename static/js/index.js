@@ -136,29 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
           openModal(card);
         }
       });
-
-      // Lazily load and preview the card video on hover / focus.
-      const cardVideo = card.querySelector("video.shortcut-overview-video");
-
-      if (cardVideo) {
-        const lazySrc = cardVideo.dataset.src;
-
-        function previewPlay() {
-          if (lazySrc && !cardVideo.src) {
-            cardVideo.src = lazySrc;
-          }
-          cardVideo.play().catch(function () {});
-        }
-
-        function previewPause() {
-          cardVideo.pause();
-        }
-
-        card.addEventListener("mouseenter", previewPlay);
-        card.addEventListener("mouseleave", previewPause);
-        card.addEventListener("focus", previewPlay);
-        card.addEventListener("blur", previewPause);
-      }
     });
 
     closeButton.addEventListener("click", closeModal);
