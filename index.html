@@ -190,44 +190,155 @@
         </div>
       </div>
 
+      <!--
+        Each card opens a detail modal (video on the left, Q/A on the right).
+        TODO: replace data-media-src with the per-case clip, e.g. ./static/videos/shortcut1.mp4 .. shortcut7.mp4
+        For now every card points to the one available clip as a live placeholder.
+      -->
       <div class="shortcut-overview-rail" tabindex="0" aria-label="Scrollable non-video shortcut examples">
-        <figure class="shortcut-overview-card">
+        <figure class="shortcut-overview-card" role="button" tabindex="0"
+          aria-label="Open Case 01: Arithmetic Reasoning"
+          data-type="Arithmetic Reasoning"
+          data-media-type="video"
+          data-media-src="./static/videos/EmbodiedPerspective_171.mp4"
+          data-question="Suppose Emily purchased some company stock in 2005 at a price of $50 per share. She passed away in 2020, when the stock's market value was $150 per share. If her heir, John, sold the stock in 2023 for $180 per share. Assume the capital gains tax rate is 15%. According to the 'step-up in basis' rule, how much capital gains tax would John need to pay?"
+          data-options=""
+          data-correct=""
+          data-answer="$4.5 per share"
+          data-reason="Pure arithmetic over the numbers stated in the text. The video frames provide no evidence needed to compute the tax.">
           <img src="./static/images/shortcut/shortcut1.png" alt="Shortcut case solvable through arithmetic reasoning without video evidence.">
           <figcaption>Case 01</figcaption>
         </figure>
 
-        <figure class="shortcut-overview-card">
+        <figure class="shortcut-overview-card" role="button" tabindex="0"
+          aria-label="Open Case 02: Single Frame"
+          data-type="Single Frame"
+          data-media-type="video"
+          data-media-src="./static/videos/EmbodiedPerspective_171.mp4"
+          data-question="What color is the stationary cube?"
+          data-options="A. brown||B. cyan||C. green||D. red"
+          data-correct="B"
+          data-answer="B. cyan"
+          data-reason="The cube never moves, so a single frame fully reveals its color. No temporal information is required.">
           <img src="./static/images/shortcut/shortcut2.png" alt="Shortcut case solvable from a single video frame.">
           <figcaption>Case 02</figcaption>
         </figure>
 
-        <figure class="shortcut-overview-card">
+        <figure class="shortcut-overview-card" role="button" tabindex="0"
+          aria-label="Open Case 03: World Knowledge"
+          data-type="World Knowledge"
+          data-media-type="video"
+          data-media-src="./static/videos/EmbodiedPerspective_171.mp4"
+          data-question="How many grandsons does the founder of Gucci have?"
+          data-options="A. 3||B. 4||C. 5||D. 6"
+          data-correct="B"
+          data-answer="B. 4"
+          data-reason="Answerable from external world knowledge about the Gucci family. The video itself is never needed (a 'blind video' case).">
           <img src="./static/images/shortcut/shortcut3.png" alt="Shortcut case solvable through world knowledge without viewing the video.">
           <figcaption>Case 03</figcaption>
         </figure>
 
-        <figure class="shortcut-overview-card">
+        <figure class="shortcut-overview-card" role="button" tabindex="0"
+          aria-label="Open Case 04: Static Context"
+          data-type="Static Context"
+          data-media-type="video"
+          data-media-src="./static/videos/EmbodiedPerspective_171.mp4"
+          data-question="What is the weather like?"
+          data-options="A. Rainy||B. Sunny||C. Snow||D. Gloomy"
+          data-correct="B"
+          data-answer="B. Sunny"
+          data-reason="The weather is constant across every frame, so any single frame suffices. No temporal reasoning is needed.">
           <img src="./static/images/shortcut/shortcut4.png" alt="Shortcut case solvable from static weather context across frames.">
           <figcaption>Case 04</figcaption>
         </figure>
 
-        <figure class="shortcut-overview-card">
+        <figure class="shortcut-overview-card" role="button" tabindex="0"
+          aria-label="Open Case 05: Static Context"
+          data-type="Static Context"
+          data-media-type="video"
+          data-media-src="./static/videos/EmbodiedPerspective_171.mp4"
+          data-question="What appears in the current scene?"
+          data-options="A. Car||B. Basket||C. Shadow of a person||D. Two hands"
+          data-correct="D"
+          data-answer="D. Two hands"
+          data-reason="The scene content is static throughout the clip; a single frame answers the question.">
           <img src="./static/images/shortcut/shortcut5.png" alt="Shortcut case solvable from static scene context without temporal reasoning.">
           <figcaption>Case 05</figcaption>
         </figure>
 
-        <figure class="shortcut-overview-card">
+        <figure class="shortcut-overview-card" role="button" tabindex="0"
+          aria-label="Open Case 06: Linguistic Reasoning"
+          data-type="Linguistic Reasoning"
+          data-media-type="video"
+          data-media-src="./static/videos/EmbodiedPerspective_171.mp4"
+          data-question="How does the speaker think about the David Suchet's movie?"
+          data-options="A. Perfect||B. Need to get progress.||C. Is not appropriate for movie.||D. Can't be worst."
+          data-correct="A"
+          data-answer="A. Perfect"
+          data-reason="The answer is carried entirely by the audio transcript ('to me is the perfect example'), not the visual stream.">
           <img src="./static/images/shortcut/shortcut6.png" alt="Shortcut case solvable through linguistic reasoning from audio evidence.">
           <figcaption>Case 06</figcaption>
         </figure>
 
-        <figure class="shortcut-overview-card">
+        <figure class="shortcut-overview-card" role="button" tabindex="0"
+          aria-label="Open Case 07: Dataset Bias"
+          data-type="Dataset Bias (Super Mario)"
+          data-media-type="video"
+          data-media-src="./static/videos/EmbodiedPerspective_171.mp4"
+          data-question="What causes the man in the red hat to shrink?"
+          data-options="A. The blue mushroom he ate||B. The gorilla used his powers||C. The gorilla crushed him||D. The crowd used their powers"
+          data-correct="A"
+          data-answer="A. The blue mushroom he ate"
+          data-reason="Solvable from Super Mario game priors. The model can guess from dataset and world bias without watching the video.">
           <img src="./static/images/shortcut/shortcut7.png" alt="Shortcut case influenced by Super Mario dataset bias.">
           <figcaption>Case 07</figcaption>
         </figure>
       </div>
     </div>
   </section>
+
+  <div class="shortcut-modal" id="shortcut-modal">
+    <div class="shortcut-modal-background"></div>
+
+    <div class="shortcut-modal-content">
+      <button class="shortcut-modal-close" type="button" aria-label="close">&times;</button>
+
+      <div class="shortcut-modal-layout">
+        <div class="shortcut-modal-media-wrapper">
+          <img id="modal-image" src="./static/images/teaser.png" alt="Shortcut case preview" hidden>
+          <video id="modal-video" controls playsinline preload="metadata" hidden></video>
+          <div class="shortcut-modal-media-caption">
+            <span>Video clip</span>
+          </div>
+        </div>
+
+        <div class="shortcut-modal-body">
+          <div class="shortcut-modal-header">
+            <span class="shortcut-modal-tag" id="modal-type">Shortcut type</span>
+          </div>
+
+          <div class="shortcut-modal-question">
+            <h4>Question</h4>
+            <p id="modal-question"></p>
+          </div>
+
+          <div class="shortcut-modal-options" id="modal-options" hidden></div>
+
+          <div class="shortcut-modal-fields">
+            <div class="shortcut-modal-field">
+              <h4>Answer</h4>
+              <p id="modal-answer"></p>
+            </div>
+
+            <div class="shortcut-modal-field">
+              <h4>Why Shortcut?</h4>
+              <p id="modal-reason"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Interactive shortcut gallery temporarily disabled.
   <section class="section shortcut-gallery-section" id="shortcut-gallery">

@@ -1,13 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const cards = document.querySelectorAll(".shortcut-card");
+  // Shared flag so dragging the rail does not trigger a card click → modal.
+  let shortcutRailDragged = false;
+
+  // ----- Shortcut detail modal (video on the left, Q/A on the right) -----
   const modal = document.getElementById("shortcut-modal");
+  const cards = document.querySelectorAll(".shortcut-overview-card");
 
   if (modal && cards.length > 0) {
     const modalImage = document.getElementById("modal-image");
     const modalVideo = document.getElementById("modal-video");
     const modalType = document.getElementById("modal-type");
-    const modalBenchmark = document.getElementById("modal-benchmark");
     const modalQuestion = document.getElementById("modal-question");
+    const modalOptions = document.getElementById("modal-options");
     const modalAnswer = document.getElementById("modal-answer");
     const modalReason = document.getElementById("modal-reason");
 
@@ -19,79 +23,84 @@ document.addEventListener("DOMContentLoaded", function () {
       return card.dataset[key] || "";
     }
 
-    function initializeCardMedia(card) {
-      const mediaType = getCardValue(card, "mediaType") || "image";
-      const mediaSrc = getCardValue(card, "mediaSrc");
-      const wrapper = card.querySelector(".shortcut-card-media-wrapper");
-      const image = wrapper ? wrapper.querySelector("img") : null;
+    function renderOptions(rawOptions, correctLabel) {
+      modalOptions.innerHTML = "";
 
-      if (!wrapper || !image || !mediaSrc) {
+      const options = rawOptions
+        .split("||")
+        .map(function (option) {
+          return option.trim();
+        })
+        .filter(Boolean);
+
+      if (options.length === 0) {
+        modalOptions.hidden = true;
         return;
       }
 
-      if (mediaType !== "video") {
-        image.src = mediaSrc;
-        image.alt = getCardValue(card, "benchmark")
-          || getCardValue(card, "question")
-          || "Shortcut case preview";
-        return;
-      }
+      const normalizedCorrect = (correctLabel || "").trim().toUpperCase();
 
-      const video = document.createElement("video");
-      video.src = mediaSrc;
-      video.poster = getCardValue(card, "poster");
-      video.muted = true;
-      video.loop = true;
-      video.playsInline = true;
-      video.preload = "metadata";
-      video.setAttribute("aria-hidden", "true");
-      image.replaceWith(video);
+      options.forEach(function (option) {
+        const item = document.createElement("div");
+        item.className = "shortcut-modal-option";
 
-      card.addEventListener("mouseenter", function () {
-        video.play().catch(function () {});
+        const match = option.match(/^([A-Z])[.)]\s*(.*)$/);
+        const label = match ? match[1].toUpperCase() : "";
+        const text = match ? match[2] : option;
+
+        if (label && label === normalizedCorrect) {
+          item.classList.add("is-correct");
+        }
+
+        if (label) {
+          const tag = document.createElement("b");
+          tag.textContent = label;
+          item.appendChild(tag);
+        }
+
+        const span = document.createElement("span");
+        span.textContent = text;
+        item.appendChild(span);
+
+        modalOptions.appendChild(item);
       });
 
-      card.addEventListener("mouseleave", function () {
-        video.pause();
-      });
-
-      card.addEventListener("focus", function () {
-        video.play().catch(function () {});
-      });
-
-      card.addEventListener("blur", function () {
-        video.pause();
-      });
+      modalOptions.hidden = false;
     }
 
     function openModal(card) {
-      const benchmark = getCardValue(card, "benchmark");
-      const question = getCardValue(card, "question");
       const type = getCardValue(card, "type");
+      const question = getCardValue(card, "question");
       const mediaType = getCardValue(card, "mediaType") || "image";
       const mediaSrc = getCardValue(card, "mediaSrc");
+      const poster = getCardValue(card, "poster");
 
       lastFocusedCard = card;
 
-      if (mediaType === "video") {
+      if (mediaType === "video" && mediaSrc) {
         modalImage.hidden = true;
         modalVideo.hidden = false;
-        modalVideo.poster = getCardValue(card, "poster");
+        if (poster) {
+          modalVideo.poster = poster;
+        } else {
+          modalVideo.removeAttribute("poster");
+        }
         modalVideo.src = mediaSrc;
         modalVideo.load();
+        modalVideo.play().catch(function () {});
       } else {
         modalVideo.pause();
         modalVideo.removeAttribute("src");
         modalVideo.load();
         modalVideo.hidden = true;
         modalImage.hidden = false;
-        modalImage.src = mediaSrc;
-        modalImage.alt = benchmark || question || "Shortcut case preview";
+        modalImage.src = mediaSrc || poster;
+        modalImage.alt = type || "Shortcut case preview";
       }
 
       modalType.textContent = type;
-      modalBenchmark.textContent = benchmark;
       modalQuestion.textContent = question;
+      renderOptions(getCardValue(card, "options"), getCardValue(card, "correct"));
       modalAnswer.textContent = getCardValue(card, "answer");
       modalReason.textContent = getCardValue(card, "reason");
 
@@ -111,9 +120,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     cards.forEach(function (card) {
-      initializeCardMedia(card);
-
       card.addEventListener("click", function () {
+        if (shortcutRailDragged) {
+          return;
+        }
         openModal(card);
       });
 
@@ -135,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // ----- Horizontal shortcut rail (page-turn navigation) -----
   const shortcutRail = document.querySelector(".shortcut-overview-rail");
   const previousShortcutButton = document.querySelector(".shortcut-overview-prev");
   const nextShortcutButton = document.querySelector(".shortcut-overview-next");
@@ -252,6 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       isDraggingShortcut = true;
+      shortcutRailDragged = false;
       shortcutDragStartX = event.clientX;
       shortcutDragStartScrollLeft = shortcutRail.scrollLeft;
       shortcutRail.classList.add("is-dragging");
@@ -263,7 +275,13 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      shortcutRail.scrollLeft = shortcutDragStartScrollLeft - (event.clientX - shortcutDragStartX);
+      const movement = event.clientX - shortcutDragStartX;
+
+      if (Math.abs(movement) > 6) {
+        shortcutRailDragged = true;
+      }
+
+      shortcutRail.scrollLeft = shortcutDragStartScrollLeft - movement;
     });
 
     function stopShortcutDragging(event) {
@@ -283,6 +301,11 @@ document.addEventListener("DOMContentLoaded", function () {
         left: targetIndex * getShortcutScrollAmount(),
         behavior: reduceMotion.matches ? "auto" : "smooth"
       });
+
+      // Let the click that immediately follows a real drag be swallowed, then reset.
+      window.setTimeout(function () {
+        shortcutRailDragged = false;
+      }, 0);
     }
 
     shortcutRail.addEventListener("pointerup", stopShortcutDragging);
@@ -292,6 +315,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateShortcutPages();
   }
 
+  // ----- Algorithmic insights rail -----
   const insightsRail = document.querySelector(".insights-rail");
   const previousInsightButton = document.querySelector(".insights-control-prev");
   const nextInsightButton = document.querySelector(".insights-control-next");
