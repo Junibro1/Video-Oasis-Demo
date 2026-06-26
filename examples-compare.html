@@ -59,6 +59,7 @@
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .cmp-md-detail { border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 14px 34px rgba(15,23,42,0.08); }
     .cmp-md-media { background: #0f172a; }
+    .cmp-md-media[hidden] { display: none; }
     .cmp-md-media video { display: block; width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #0f172a; }
     .cmp-md-info { padding: 1.6rem; }
     @media screen and (max-width: 820px) { .cmp-md { grid-template-columns: 1fr; } }
@@ -156,7 +157,7 @@
   (function () {
     var V = "./static/videos/";
     var CASES = [
-      { n:"01", type:"Arithmetic Reasoning", bench:"Video-MME", video:V+"t6V9i8fFADI.mp4",
+      { n:"01", type:"Arithmetic Reasoning", bench:"Video-MME", video:"",
         question:"Suppose Emily purchased some company stock in 2005 at a price of $50 per share. She passed away in 2020, when the stock's market value was $150 per share. If her heir, John, sold the stock in 2023 for $180 per share. Assume the capital gains tax rate is 15%. According to the 'step-up in basis' rule, how much capital gains tax would John need to pay?",
         options:["A. $4.5 per share.","B. $27 per share.","C. $19.5 per share.","D. $15 per share."], correct:"A", answer:"A. $4.5 per share.",
         reason:"Pure arithmetic over the numbers stated in the text. The video frames provide no evidence needed to compute the tax." },
@@ -164,7 +165,7 @@
         question:"What color is the stationary cube when the video begins?",
         options:["A. brown","B. green","C. red","D. cyan"], correct:"D", answer:"D. cyan",
         reason:"The cube never moves, so a single frame fully reveals its color. No temporal information is required." },
-      { n:"03", type:"World Knowledge", bench:"Video-MME", video:V+"CKYw_RG7i7w.mp4",
+      { n:"03", type:"World Knowledge", bench:"Video-MME", video:"",
         question:"According to the video, how many grandsons does the founder of Gucci have?",
         options:["A. 3","B. 4","C. 5","D. 6"], correct:"B", answer:"B. 4",
         reason:"Answerable from external world knowledge about the Gucci family. The video itself is never needed (a 'blind video' case)." },
@@ -176,7 +177,7 @@
         question:"What appears in the current scene?",
         options:["A. Car","B. Basket","C. Shadow of a person","D. Two hands"], correct:"D", answer:"D. Two hands",
         reason:"The scene content is static throughout the clip; a single frame answers the question." },
-      { n:"06", type:"Linguistic Reasoning", bench:"Video-MME", video:V+"IPqb_oDlGBU.mp4",
+      { n:"06", type:"Linguistic Reasoning", bench:"Video-MME", video:"",
         question:"How does the speaker think about the David Suchet's version movie?",
         options:["A. Perfect.","B. Need to get progress.","C. Is not appropriate for movie.","D. Can't be worst."], correct:"A", answer:"A. Perfect.",
         reason:"The answer is carried entirely by the audio transcript ('to me is the perfect example'), not the visual stream." },
@@ -215,6 +216,8 @@
     var mReason = document.getElementById("modal-reason");
     var mClose = modal.querySelector(".shortcut-modal-close");
     var mBg = modal.querySelector(".shortcut-modal-background");
+    var mLayout = modal.querySelector(".shortcut-modal-layout");
+    var mWrap = modal.querySelector(".shortcut-modal-media-wrapper");
 
     function openModal(c) {
       mType.textContent = c.type;
@@ -223,7 +226,13 @@
       renderOptionsInto(mOpts, c.options, c.correct);
       mAns.textContent = c.answer;
       mReason.textContent = c.reason;
-      mVideo.src = c.video; mVideo.load(); mVideo.play().catch(function(){});
+      if (c.video) {
+        mWrap.hidden = false; mLayout.classList.remove("is-no-video");
+        mVideo.hidden = false; mVideo.src = c.video; mVideo.load(); mVideo.play().catch(function(){});
+      } else {
+        mVideo.pause(); mVideo.removeAttribute("src"); mVideo.load(); mVideo.hidden = true;
+        mWrap.hidden = true; mLayout.classList.add("is-no-video");
+      }
       modal.classList.add("is-active");
       document.body.style.overflow = "hidden";
     }
@@ -283,6 +292,7 @@
     var dReason = document.getElementById("cmp-md-reason");
     var mdItems = [];
 
+    var dMedia = document.querySelector(".cmp-md-media");
     function selectCase(i) {
       var c = CASES[i];
       mdItems.forEach(function (it, k) { it.classList.toggle("is-active", k === i); });
@@ -292,7 +302,11 @@
       renderOptionsInto(dOpts, c.options, c.correct);
       dAns.textContent = c.answer;
       dReason.textContent = c.reason;
-      dVideo.src = c.video; dVideo.load();
+      if (c.video) {
+        dMedia.hidden = false; dVideo.src = c.video; dVideo.load();
+      } else {
+        dVideo.pause(); dVideo.removeAttribute("src"); dVideo.load(); dMedia.hidden = true;
+      }
     }
 
     CASES.forEach(function (c, i) {
