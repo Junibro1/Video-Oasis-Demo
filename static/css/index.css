@@ -392,26 +392,44 @@ position: relative;
 margin: 0;
 padding: 0.45rem;
 cursor: pointer;
-background: #ffffff;
-border: 1px solid #dfe7f1;
+background: #f4f6fa;
+border: 1px solid #e2e8f0;
 border-radius: 14px;
-box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
 overflow: hidden;
 scroll-snap-align: start;
+filter: saturate(0.78);
 transform-origin: var(--page-origin, center);
 transform:
 translateY(var(--page-lift, 0))
 rotateY(var(--page-angle, 0deg));
 transition:
 transform 0.42s cubic-bezier(0.22, 0.8, 0.22, 1),
-box-shadow 0.42s ease,
-filter 0.42s ease;
+box-shadow 0.32s ease,
+border-color 0.32s ease,
+background-color 0.32s ease,
+filter 0.32s ease;
 backface-visibility: hidden;
 will-change: transform;
 }
 
-.shortcut-overview-card:hover {
-box-shadow: 0 20px 44px rgba(15, 23, 42, 0.18);
+.shortcut-overview-card:hover,
+.shortcut-overview-card:focus-within {
+background: #ffffff;
+border-color: #4f6bdc;
+box-shadow: 0 22px 50px rgba(49, 107, 220, 0.24);
+filter: saturate(1.06);
+}
+
+.shortcut-overview-card:hover .shortcut-overview-card-type,
+.shortcut-overview-card:focus-within .shortcut-overview-card-type {
+background: #4f6bdc;
+color: #ffffff;
+}
+
+.shortcut-overview-card:hover .shortcut-overview-card-q,
+.shortcut-overview-card:focus-within .shortcut-overview-card-q {
+color: #0b1220;
 }
 
 .shortcut-overview-card:focus-visible {
@@ -472,6 +490,7 @@ color: #3149a5;
 background: rgba(49, 73, 165, 0.1);
 border-radius: 999px;
 padding: 0.32rem 0.62rem;
+transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .shortcut-overview-card-bench {
@@ -495,6 +514,7 @@ display: -webkit-box;
 -webkit-line-clamp: 4;
 -webkit-box-orient: vertical;
 overflow: hidden;
+transition: color 0.25s ease;
 }
 
 .shortcut-overview-card-answer {
