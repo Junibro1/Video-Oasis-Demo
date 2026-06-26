@@ -176,12 +176,24 @@
           <span class="shortcut-gallery-kicker">Diagnostic cases</span>
           <h2 class="shortcut-gallery-title">Examples of Non-Video Shortcut Problems</h2>
         </div>
+        <div class="shortcut-overview-controls" aria-label="Shortcut case navigation">
+          <button class="shortcut-overview-control shortcut-overview-prev" type="button" aria-label="Previous shortcut case">
+            <span class="icon" aria-hidden="true">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+          </button>
+          <button class="shortcut-overview-control shortcut-overview-next" type="button" aria-label="Next shortcut case">
+            <span class="icon" aria-hidden="true">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </button>
+        </div>
       </div>
 
       <!--
-        All cases are shown at once in a grid. Each card shows a lightweight
-        layout preview and opens a detail popup on click (video on the left,
-        Category/Question/Options/Answer on the right).
+        Cases are shown in a horizontal rail (arrows / drag / wheel). Each card
+        shows a content summary and opens a detail popup on click (video on the
+        left, Category/Question/Options/Answer on the right).
 
         The baked poster PNGs in ./static/images/shortcut/ are intentionally
         left in the repo but no longer linked here.
@@ -196,7 +208,7 @@
           Case 07  Dataset Bias          ImplicitQA   -EIXPOw_Wzs.mp4
         Only Case 05's clip exists locally; every card currently points to it as a placeholder.
       -->
-      <div class="shortcut-overview-rail" aria-label="Non-video shortcut examples">
+      <div class="shortcut-overview-rail" tabindex="0" aria-label="Scrollable non-video shortcut examples">
         <figure class="shortcut-overview-card" role="button" tabindex="0"
           aria-label="Open Case 01: Arithmetic Reasoning"
           data-type="Arithmetic Reasoning"

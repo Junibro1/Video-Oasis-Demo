@@ -341,9 +341,50 @@ cursor: default;
 
 .shortcut-overview-rail {
 display: grid;
-grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+grid-auto-flow: column;
+grid-auto-columns: minmax(360px, 33%);
 gap: 1.25rem;
-padding: 0.15rem 0 0.4rem;
+overflow-x: auto;
+overscroll-behavior-inline: contain;
+scroll-snap-type: inline mandatory;
+scroll-padding-inline: 0.1rem;
+padding: 0.15rem 0 0.9rem;
+scrollbar-width: thin;
+scrollbar-color: #a8b5c7 #edf1f6;
+cursor: grab;
+perspective: 1400px;
+perspective-origin: center;
+}
+
+.shortcut-overview-rail:active {
+cursor: grabbing;
+}
+
+.shortcut-overview-rail.is-dragging {
+scroll-snap-type: none;
+}
+
+.shortcut-overview-rail.is-dragging .shortcut-overview-card {
+transition: none;
+}
+
+.shortcut-overview-rail::-webkit-scrollbar {
+height: 8px;
+}
+
+.shortcut-overview-rail::-webkit-scrollbar-track {
+background: #edf1f6;
+border-radius: 999px;
+}
+
+.shortcut-overview-rail::-webkit-scrollbar-thumb {
+background: #a8b5c7;
+border-radius: 999px;
+}
+
+.shortcut-overview-rail:focus-visible {
+outline: 3px solid rgba(79, 107, 220, 0.24);
+outline-offset: 4px;
 }
 
 .shortcut-overview-card {
@@ -370,8 +411,7 @@ will-change: transform;
 }
 
 .shortcut-overview-card:hover {
-transform: translateY(-4px);
-box-shadow: 0 20px 40px rgba(15, 23, 42, 0.16);
+box-shadow: 0 20px 44px rgba(15, 23, 42, 0.18);
 }
 
 .shortcut-overview-card:focus-visible {
@@ -513,12 +553,20 @@ flex-direction: column;
 gap: 0;
 }
 
+.shortcut-overview-controls {
+padding-bottom: 0;
+}
+
 .shortcut-overview-rail {
-grid-template-columns: 1fr;
+grid-auto-columns: minmax(270px, 82%);
 }
 }
 
 @media (prefers-reduced-motion: reduce) {
+.shortcut-overview-rail {
+scroll-behavior: auto;
+}
+
 .shortcut-overview-card,
 .shortcut-overview-card::after {
 transition: none;
