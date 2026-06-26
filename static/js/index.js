@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const modalAnswer = document.getElementById("modal-answer");
     const modalReason = document.getElementById("modal-reason");
 
+    const modalLayout = modal.querySelector(".shortcut-modal-layout");
+    const modalMediaWrapper = modal.querySelector(".shortcut-modal-media-wrapper");
     const closeButton = modal.querySelector(".shortcut-modal-close");
     const background = modal.querySelector(".shortcut-modal-background");
     let lastFocusedCard = null;
@@ -72,34 +74,38 @@ document.addEventListener("DOMContentLoaded", function () {
     function openModal(card) {
       const type = getCardValue(card, "type");
       const question = getCardValue(card, "question");
-      const mediaType = getCardValue(card, "mediaType") || "image";
+      const mediaType = getCardValue(card, "mediaType") || "none";
       const mediaSrc = getCardValue(card, "mediaSrc");
-      const cardVideo = card.querySelector("video");
-      const poster = getCardValue(card, "poster")
-        || (cardVideo ? cardVideo.getAttribute("poster") : "")
-        || "";
+      const hasVideo = mediaType === "video" && mediaSrc;
 
       lastFocusedCard = card;
 
-      if (mediaType === "video" && mediaSrc) {
+      if (modalImage) {
         modalImage.hidden = true;
+      }
+
+      if (hasVideo) {
         modalVideo.hidden = false;
-        if (poster) {
-          modalVideo.poster = poster;
-        } else {
-          modalVideo.removeAttribute("poster");
-        }
         modalVideo.src = mediaSrc;
         modalVideo.load();
         modalVideo.play().catch(function () {});
+        if (modalMediaWrapper) {
+          modalMediaWrapper.hidden = false;
+        }
+        if (modalLayout) {
+          modalLayout.classList.remove("is-no-video");
+        }
       } else {
         modalVideo.pause();
         modalVideo.removeAttribute("src");
         modalVideo.load();
         modalVideo.hidden = true;
-        modalImage.hidden = false;
-        modalImage.src = mediaSrc || poster;
-        modalImage.alt = type || "Shortcut case preview";
+        if (modalMediaWrapper) {
+          modalMediaWrapper.hidden = true;
+        }
+        if (modalLayout) {
+          modalLayout.classList.add("is-no-video");
+        }
       }
 
       modalType.textContent = type;
